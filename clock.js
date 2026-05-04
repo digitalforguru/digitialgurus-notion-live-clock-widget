@@ -53,11 +53,11 @@ function updateTime() {
 }
 timeBtn.addEventListener("click", () => {
   timeFormat = timeFormat === "24hr" ? "12hr" : "24hr";
+
   localStorage.setItem("timeFormat", timeFormat);
 
   updateTime();
 });
-
 /* ---------------- THEME ---------------- */
 function setTheme(theme) {
   state.theme = theme;
@@ -80,7 +80,7 @@ function buildEmbedURL() {
 
   const today = new Date().toISOString().split("T")[0];
 
-  return `${base}?theme=${state.theme}&font=${state.font}&date=${today}&embed=true`;
+  return `${base}?theme=${state.theme}&font=${state.font}&date=${today}&time=${timeFormat}&embed=true`;
 }
 
 /* ---------------- COPY LINK ---------------- */
@@ -140,6 +140,7 @@ document.addEventListener("click", (e) => {
 
 setInterval(updateTime, 1000);
 updateTime();
-/* ---------------- INIT ---------------- */
+
+updateTime();
 setTheme(state.theme);
 setFont(state.font);
