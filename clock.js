@@ -21,7 +21,8 @@ const isEmbed = params.get("embed") === "true";
 let state = {
   theme: params.get("theme") || "beige",
   font: params.get("font") || "default",
-  date: params.get("date") || new Date().toISOString().split("T")[0]
+  format: params.get("format") || "24hr",
+  seconds: params.get("seconds") || "show"
 };
 
 /* hide builder in embed */
@@ -39,17 +40,25 @@ function updateTime() {
 
   let period = "";
 
-  if (timeFormat === "12hr") {
+  if (state.format === "12hr") {
     period = hours >= 12 ? "PM" : "AM";
-    hours = hours % 12;
-    hours = hours ? hours : 12; // convert 0 → 12
+    hours = hours % 12 || 12;
   }
 
-  const formattedTime =
-    timeFormat === "12hr"
-      ? `${hours}:${minutes}:${seconds} ${period}`
-      : `${String(hours).padStart(2, "0")}:${minutes}:${seconds}`;
-      timeDisplay.textContent = formattedTime;
+  let timeString =
+    state.format === "12hr"
+      ? `${hours}:${minutes}`
+      : `${String(hours).padStart(2, "0")}:${minutes}`;
+
+  if (state.seconds === "show") {
+    timeString += `:${seconds}`;
+  }
+
+  if (state.format === "12hr") {
+    timeString += ` ${period}`;
+  }
+
+  timeDisplay.textContent = timeString;
 }
 timeBtn.addEventListener("click", () => {
   timeFormat = timeFormat === "24hr" ? "12hr" : "24hr";
@@ -58,6 +67,33 @@ timeBtn.addEventListener("click", () => {
 
   updateTime();
 });
+
+const sizeBtn = document.getElementById("sizeBtn");
+
+sizeBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  sizeOptions.classList.toggle("hidden");
+});
+
+document.querySelectorAll(".size-option").forEach(option => {
+  option.addEventListener("click", () => {
+
+    if (option.dataset.format) {
+      state.format = option.dataset.format;
+    }
+
+    if (option.dataset.seconds) {
+      state.seconds = option.dataset.seconds;
+    }
+
+    sizeOptions.classList.add("hidden");
+    updateTime();
+  });
+});
+
+if (!sizeBtn?.contains(e.target) && !sizeOptions?.contains(e.target)) {
+  sizeOptions?.classList.add("hidden");
+}
 /* ---------------- THEME ---------------- */
 function setTheme(theme) {
   state.theme = theme;
@@ -78,9 +114,7 @@ function setFont(font) {
 function buildEmbedURL() {
   const base = window.location.origin + window.location.pathname;
 
-  const today = new Date().toISOString().split("T")[0];
-
-  return `${base}?theme=${state.theme}&font=${state.font}&date=${today}&time=${timeFormat}&embed=true`;
+  return `${base}?theme=${state.theme}&font=${state.font}&format=${state.format}&seconds=${state.seconds}&embed=true`;
 }
 
 /* ---------------- COPY LINK ---------------- */
