@@ -1,6 +1,6 @@
 /* ---------------- ELEMENTS ---------------- */
 const widget = document.getElementById("widget");
-const timeDisplay = document.getElementById("time");
+const timeDisplay = document.getElementById("clock");
 const dateDisplay = document.getElementById("date");
 
 const themeBtn = document.getElementById("themeBtn");
@@ -11,8 +11,6 @@ const fontOptions = document.getElementById("fontOptions");
 
 const copyBtn = document.getElementById("copyLinkBtn");
 const timeBtn = document.getElementById("sizeBtn"); 
-// (you’re reusing sizeBtn as time toggle)
-
 let timeFormat = localStorage.getItem("timeFormat") || "24hr";
 
 /* ---------------- URL PARAMS ---------------- */
@@ -51,8 +49,7 @@ function updateTime() {
     timeFormat === "12hr"
       ? `${hours}:${minutes}:${seconds} ${period}`
       : `${String(hours).padStart(2, "0")}:${minutes}:${seconds}`;
-
-  document.getElementById("timeText").textContent = formattedTime;
+      timeDisplay.textContent = formattedTime;
 }
 timeBtn.addEventListener("click", () => {
   timeFormat = timeFormat === "24hr" ? "12hr" : "24hr";
