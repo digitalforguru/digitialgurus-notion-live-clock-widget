@@ -1,1 +1,453 @@
+body {
+  margin: 0; padding: 10px;
+  background: transparent;
+  font-family: 'Satoshi', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
 
+/* ---------------- BUILDER LAYOUT ---------------- */
+.builder-ui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------------- HEADER (same as other widgets) ---------------- */
+.widget-header {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+
+  padding: 8px 16px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0.9),
+    rgba(255,255,255,0.7)
+  );
+
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+
+  color: #444;
+  text-align: center;
+
+  margin-bottom: 8px;
+}
+
+/* ---------------- TIP BOX ---------------- */
+.usage-tip {
+  font-size: 12px;
+  line-height: 1.4;
+
+  width: 260px;
+
+  background: rgba(255,255,255,0.75);
+
+  padding: 14px;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+
+  text-align: center;
+}
+
+/* ---------------- TOP CONTROLS ---------------- */
+.top-left-controls {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0 6px;
+}
+
+/* ---------------- BUTTON BASE ---------------- */
+.btn {
+  width: 56px;
+  height: 56px;
+
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px) scale(1.05);
+}
+
+/* ---------------- THEME + FONT BUTTONS ---------------- */
+.font-toggle-btn {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.theme-btn {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+
+  background-color: #f4dfeb; /* ALWAYS pink */
+  border: 2px solid white;
+
+  box-sizing: border-box;
+
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ---------------- POPUP CARDS (MATCH WEATHER STYLE) ---------------- */
+.sign-popup {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 16px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(16px);
+
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+
+  z-index: 20;
+}
+
+/* popup title */
+.sign-title {
+  font-size: 11px;
+  opacity: 0.6;
+  text-transform: lowercase;
+}
+
+/* ---------------- THEME ROW ---------------- */
+.themes-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* ---------------- THEME CIRCLES ---------------- */
+.theme-circle {
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+  cursor: pointer;
+
+  border: 2px solid rgba(0,0,0,0.08);
+
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.theme-circle:hover {
+  transform: scale(1.25);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+}
+
+.theme-circle.pink { background-color: #f4dfeb; }
+.theme-circle.beige { background-color: #faebdd; }
+.theme-circle.blue { background-color: #ddebf1; }
+.theme-circle.green { background-color: #ddedea; }
+
+/* ---------------- FONT LIST ---------------- */
+.font-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ---------------- FONT OPTIONS ---------------- */
+.font-option {
+  font-size: 12px;
+  padding: 6px 10px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.6);
+
+  transition: all 0.2s ease;
+}
+
+.font-option:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.9);
+}
+
+.font-option[data-font="default"] {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.font-option[data-font="serif"] {
+  font-family: Georgia, serif;
+}
+
+.font-option[data-font="mono"] {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------------- WIDGET ---------------- */
+.widget {
+  width: 180px;
+  height: 180px;
+
+  padding: 12px;
+  border-radius: 22px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  text-align: center;
+
+  background: #f5f5dc;
+  color: #5d4c3a;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.4);
+
+  backdrop-filter: blur(10px);
+
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.widget:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* THEMES */
+.widget.pink { background-color: #f4dfeb; color: #60355c; }
+.widget.beige { background-color: #faebdd; color: #5d4c3a; }
+.widget.blue { background-color: #ddebf1; color: #4b5c74; }
+.widget.green { background-color: #ddedea; color: #5b6c5a; }
+
+/* ---------------- CONTENT ---------------- */
+.widget-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+/* TITLE */
+.widget-title {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+/* LINE */
+.divider-line {
+  width: 60%;
+  height: 1px;
+  background: rgba(0,0,0,0.15);
+}
+
+/* AFFIRMATION TEXT */
+#affirmationText {
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* DATE */
+#date {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* ---------------- COPY AREA ---------------- */
+.setup-area {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.copy-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+
+  border-radius: 14px;
+  border: none;
+
+  cursor: pointer;
+
+  background: #fff;
+  color: #444;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.copy-message {
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.copy-message.show {
+  opacity: 1;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ---------------- FOOTER ---------------- */
+.footer-links {
+  margin-top: 12px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+
+  font-size: 11px;
+
+  opacity: 0.65;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: inherit;
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer-link:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.divider {
+  opacity: 0.4;
+}
+
+/* smoothing */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------------- FONT CLASSES (THIS FIXES EVERYTHING) ---------------- */
+
+.widget.font-default {
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.widget.font-serif {
+  font-family: Georgia, serif;
+}
+
+.widget.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---------------- SIZE VARIANTS ---------------- */
+
+.widget.small {
+  width: 90px;
+  height: 90px;
+}
+
+.widget.medium {
+  width: 145px;
+  height: 145px;
+}
+
+.widget.wide {
+  width: 200px;
+  height: 80px;
+}
+/* ---------------- SIZE POPUP ---------------- */
+#sizeOptions {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 16px;
+  border-radius: 18px;
+
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(16px);
+
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+
+  z-index: 25;
+}
+
+/* ---------------- SIZE BUTTONS ---------------- */
+.size-option {
+  width: 120px;
+
+  padding: 8px 10px;
+
+  border-radius: 12px;
+
+  text-align: center;
+  font-size: 12px;
+
+  cursor: pointer;
+
+  background: rgba(255,255,255,0.6);
+
+  transition: all 0.2s ease;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+/* hover effect */
+.size-option:hover {
+  transform: scale(1.05);
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 10px 18px rgba(0,0,0,0.12);
+}
+
+/* active state (optional but nice) */
+.size-option.active {
+  background: #f9d5d3;
+  color: #b56576;
+  transform: scale(1.03);
+}
