@@ -88,7 +88,7 @@ document.querySelectorAll(".size-option").forEach(option => {
 function setTheme(theme) {
   state.theme = theme;
 
-  widget.classList.remove("beige", "pink", "blue", "green");
+  widget.classList.remove("beige", "pink", "blue", "green", "black", "white");
   widget.classList.add(theme);
 }
 
