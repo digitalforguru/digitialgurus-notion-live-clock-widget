@@ -1,36 +1,29 @@
-html.embed-mode,
-html.embed-mode body {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  width: max-content !important;
-  height: max-content !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
-}
-
-html.embed-mode .builder-ui {
-  display: none !important;
-}
 html,
 body {
   margin: 0 !important;
   padding: 0 !important;
   background: transparent !important;
   background-color: transparent !important;
-  width: fit-content !important;
-  height: fit-content !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
   overflow: hidden !important;
 }
 
 body {
   font-family: 'Satoshi', sans-serif;
-  display: inline-flex !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
+  display: block !important;
+}
+
+html.embed-mode,
+html.embed-mode body {
+  width: 210px !important;
+  height: 100px !important;
+  min-width: 210px !important;
+  min-height: 100px !important;
+  max-width: 210px !important;
+  max-height: 100px !important;
+}
+
+html.embed-mode .builder-ui {
+  display: none !important;
 }
 /* ---------------- BUILDER LAYOUT ---------------- */
 .builder-ui {
@@ -237,10 +230,10 @@ body {
 
 /* ---------------- WIDGET ---------------- */
 .widget {
-  width: 210px;   /* 👈 wider */
-  height: 100px;  /* 👈 shorter */
-
+  width: 210px;
+  height: 100px;
   padding: 14px 12px;
+  box-sizing: border-box;
   border-radius: 20px;
 
   display: flex;
@@ -256,12 +249,6 @@ body {
   box-shadow: none;
 }
 
-.widget:hover {
-  transform: translateY(-2px) scale(1.01);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.5);
-}
 
 /* THEMES */
 .widget.pink { background-color: #f4dfeb; color: #60355c; }
@@ -479,16 +466,4 @@ body {
   background: #f9d5d3;
   color: #b56576;
   transform: scale(1.03);
-}
-
-html,
-body {
-  background: transparent !important;
-}
-html.embed-mode,
-body.embed-mode {
-  width: fit-content !important;
-  height: fit-content !important;
-  min-height: 0 !important;
-  overflow: hidden !important;
 }
