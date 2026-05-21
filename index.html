@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DigitalGuru's Live Clock Widget</title>
 
+  <script>
+    if (new URLSearchParams(window.location.search).get("embed") === "true") {
+      document.documentElement.classList.add("embed-mode");
+    }
+  </script>
+
   <link rel="stylesheet" href="style.css" />
 </head>
 
