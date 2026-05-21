@@ -28,7 +28,10 @@ let state = {
 /* hide builder in embed */
 if (isEmbed) {
   const builder = document.querySelector(".builder-ui");
-  if (builder) builder.style.display = "none";
+  if (builder) builder.remove();
+
+  document.documentElement.classList.add("embed-mode");
+  document.body.classList.add("embed-mode");
 }
 
 function updateTime() {
