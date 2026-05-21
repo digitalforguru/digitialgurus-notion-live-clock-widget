@@ -1,28 +1,34 @@
+:root {
+  color-scheme: light dark;
+}
+
 html,
 body {
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+  background: Canvas !important;
+  background-color: Canvas !important;
 }
 
-@media (prefers-color-scheme: dark) {
-  html,
-  body {
-    background: #191919 !important;
-    background-color: #191919 !important;
-  }
-}
-html,
 body {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  overflow: hidden !important;
+  font-family: 'Satoshi', sans-serif;
+  display: block !important;
 }
 
+html.embed-mode,
+html.embed-mode body {
+  width: 210px !important;
+  height: 100px !important;
+  min-width: 210px !important;
+  min-height: 100px !important;
+  max-width: 210px !important;
+  max-height: 100px !important;
+}
+
+html.embed-mode .builder-ui {
+  display: none !important;
+}
 body {
   font-family: 'Satoshi', sans-serif;
   display: block !important;
