@@ -107,7 +107,7 @@ function setFont(font) {
 function buildEmbedURL() {
   const base = window.location.origin + window.location.pathname;
 
-  return `${base}?theme=${state.theme}&font=${state.font}&format=${state.format}&seconds=${state.seconds}&embed=true&v=999`;
+  return `${base}?theme=${state.theme}&font=${state.font}&format=${state.format}&seconds=${state.seconds}&embed=true`;
 }
 
 /* ---------------- COPY LINK ---------------- */
