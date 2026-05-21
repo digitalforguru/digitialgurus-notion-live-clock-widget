@@ -2,6 +2,22 @@ html,
 body {
   margin: 0 !important;
   padding: 0 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    background: #191919 !important;
+    background-color: #191919 !important;
+  }
+}
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
   background: transparent !important;
   background-color: transparent !important;
   overflow: hidden !important;
