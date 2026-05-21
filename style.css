@@ -4,17 +4,18 @@ body {
   padding: 0 !important;
   background: transparent !important;
   background-color: transparent !important;
-  box-shadow: none !important;
-  width: 100%;
-  min-height: 100%;
+  width: fit-content !important;
+  height: fit-content !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
 
 body {
   font-family: 'Satoshi', sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+  display: inline-flex !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
 }
 /* ---------------- BUILDER LAYOUT ---------------- */
 .builder-ui {
@@ -469,17 +470,10 @@ html,
 body {
   background: transparent !important;
 }
-html,
-body {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: transparent !important;
-}
-
-@media (prefers-color-scheme: dark) {
-  html,
-  body {
-    background: #191919 !important;
-    background-color: #191919 !important;
-  }
+html.embed-mode,
+body.embed-mode {
+  width: fit-content !important;
+  height: fit-content !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
 }
