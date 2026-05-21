@@ -1,3 +1,18 @@
+html.embed-mode,
+html.embed-mode body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  width: max-content !important;
+  height: max-content !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+html.embed-mode .builder-ui {
+  display: none !important;
+}
 html,
 body {
   margin: 0 !important;
