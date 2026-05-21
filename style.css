@@ -1,6 +1,6 @@
 body {
   margin: 0; padding: 10px;
-  background: transparent;
+  background: transparent !important;
   font-family: 'Satoshi', sans-serif;
   display: flex;
   justify-content: center;
@@ -229,13 +229,7 @@ body {
   background: #f5f5dc;
   color: #5d4c3a;
 
-  box-shadow:
-    0 12px 30px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.4);
-
-  backdrop-filter: blur(10px);
-
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: none;
 }
 
 .widget:hover {
@@ -461,4 +455,9 @@ body {
   background: #f9d5d3;
   color: #b56576;
   transform: scale(1.03);
+}
+
+html,
+body {
+  background: transparent !important;
 }
