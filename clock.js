@@ -10,7 +10,6 @@ const fontBtn = document.getElementById("fontToggle");
 const fontOptions = document.getElementById("fontOptions");
 
 const copyBtn = document.getElementById("copyLinkBtn");
-const timeBtn = document.getElementById("sizeBtn"); 
 let timeFormat = localStorage.getItem("timeFormat") || "24hr";
 
 /* ---------------- URL PARAMS ---------------- */
@@ -65,27 +64,35 @@ function updateTime() {
 }
 
 const sizeBtn = document.getElementById("sizeBtn");
+const sizeOptions = document.getElementById("sizeOptions");
 
-sizeBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-  sizeOptions.classList.toggle("hidden");
-});
+if (sizeBtn && sizeOptions) {
 
-document.querySelectorAll(".size-option").forEach(option => {
-  option.addEventListener("click", () => {
-
-    if (option.dataset.format) {
-      state.format = option.dataset.format;
-    }
-
-    if (option.dataset.seconds) {
-      state.seconds = option.dataset.seconds;
-    }
-
-    sizeOptions.classList.add("hidden");
-    updateTime();
+  sizeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    sizeOptions.classList.toggle("hidden");
   });
-});
+
+  document.querySelectorAll(".size-option").forEach(option => {
+
+    option.addEventListener("click", () => {
+
+      if (option.dataset.format) {
+        state.format = option.dataset.format;
+      }
+
+      if (option.dataset.seconds) {
+        state.seconds = option.dataset.seconds;
+      }
+
+      sizeOptions.classList.add("hidden");
+      updateTime();
+
+    });
+
+  });
+
+}
 
 /* ---------------- THEME ---------------- */
 function setTheme(theme) {
