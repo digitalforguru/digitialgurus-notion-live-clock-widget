@@ -469,3 +469,17 @@ html,
 body {
   background: transparent !important;
 }
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html,
+  body {
+    background: #191919 !important;
+    background-color: #191919 !important;
+  }
+}
