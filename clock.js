@@ -1,38 +1,71 @@
 /* ---------------- ELEMENTS ---------------- */
 const widget = document.getElementById("widget");
+const previewWidget = document.getElementById("previewWidget");
+
 const timeDisplay = document.getElementById("clock");
+const previewTimeDisplay = document.getElementById("previewClock");
+
 const dateDisplay = document.getElementById("date");
+const previewDateDisplay = document.getElementById("previewDate");
 
 const themeBtn = document.getElementById("themeBtn");
 const themeOptions = document.getElementById("themeOptions");
 
+const appearanceToggle = document.getElementById("appearanceToggle");
+const appearanceOptions = document.getElementById("appearanceOptions");
+
 const fontBtn = document.getElementById("fontToggle");
 const fontOptions = document.getElementById("fontOptions");
 
+const sizeBtn = document.getElementById("sizeBtn");
+const sizeOptions = document.getElementById("sizeOptions");
+
 const copyBtn = document.getElementById("copyLinkBtn");
-let timeFormat = localStorage.getItem("timeFormat") || "24hr";
+const copyMessage = document.getElementById("copyMessage");
 
 /* ---------------- URL PARAMS ---------------- */
 const params = new URLSearchParams(window.location.search);
 const isEmbed = params.get("embed") === "true";
 
-/* ---------------- STATE ---------------- */
-let state = {
-  theme: params.get("theme") || "beige",
-  font: params.get("font") || "default",
-  format: params.get("format") || "24hr",
-  seconds: params.get("seconds") || "show"
-};
-
-/* hide builder in embed */
 if (isEmbed) {
-  const builder = document.querySelector(".builder-ui");
-  if (builder) builder.remove();
-
   document.documentElement.classList.add("embed-mode");
-  document.body.classList.add("embed-mode");
 }
 
+/* ---------------- STATE ---------------- */
+let state = {
+  theme: params.get("theme") || localStorage.getItem("clockTheme") || "beige",
+  font: params.get("font") || localStorage.getItem("clockFont") || "default",
+  appearance:
+    params.get("appearance") ||
+    localStorage.getItem("clockAppearance") ||
+    "system",
+  format: params.get("format") || localStorage.getItem("clockFormat") || "24hr",
+  seconds:
+    params.get("seconds") || localStorage.getItem("clockSeconds") || "show",
+};
+
+/* ---------------- HELPERS ---------------- */
+function updateBothWidgets(callback) {
+  [widget, previewWidget].forEach((el) => {
+    if (el) callback(el);
+  });
+}
+
+function setBothText(mainEl, previewEl, value) {
+  [mainEl, previewEl].forEach((el) => {
+    if (el) el.textContent = value;
+  });
+}
+
+function saveState() {
+  localStorage.setItem("clockTheme", state.theme);
+  localStorage.setItem("clockFont", state.font);
+  localStorage.setItem("clockAppearance", state.appearance);
+  localStorage.setItem("clockFormat", state.format);
+  localStorage.setItem("clockSeconds", state.seconds);
+}
+
+/* ---------------- TIME ---------------- */
 function updateTime() {
   const now = new Date();
 
@@ -60,61 +93,62 @@ function updateTime() {
     timeString += ` ${period}`;
   }
 
-  timeDisplay.textContent = timeString;
-}
+  const dateString = now
+    .toLocaleDateString([], {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    })
+    .toLowerCase();
 
-const sizeBtn = document.getElementById("sizeBtn");
-const sizeOptions = document.getElementById("sizeOptions");
-
-if (sizeBtn && sizeOptions) {
-
-  sizeBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    sizeOptions.classList.toggle("hidden");
-  });
-
-  document.querySelectorAll(".size-option").forEach(option => {
-
-    option.addEventListener("click", () => {
-
-      if (option.dataset.format) {
-        state.format = option.dataset.format;
-      }
-
-      if (option.dataset.seconds) {
-        state.seconds = option.dataset.seconds;
-      }
-
-      sizeOptions.classList.add("hidden");
-      updateTime();
-
-    });
-
-  });
-
+  setBothText(timeDisplay, previewTimeDisplay, timeString);
+  setBothText(dateDisplay, previewDateDisplay, dateString);
 }
 
 /* ---------------- THEME ---------------- */
 function setTheme(theme) {
-  state.theme = theme;
+  state.theme = theme || "beige";
 
-  widget.classList.remove("beige", "pink", "blue", "green", "black", "white");
-  widget.classList.add(theme);
+  updateBothWidgets((el) => {
+    el.classList.remove("beige", "pink", "blue", "green", "black", "white");
+    el.classList.add(state.theme);
+  });
+
+  saveState();
 }
 
 /* ---------------- FONT ---------------- */
 function setFont(font) {
-  state.font = font;
+  state.font = font || "default";
 
-  widget.classList.remove("font-default", "font-serif", "font-mono");
-  widget.classList.add(`font-${font}`);
+  updateBothWidgets((el) => {
+    el.classList.remove("font-default", "font-serif", "font-mono");
+    el.classList.add(`font-${state.font}`);
+  });
+
+  saveState();
+}
+
+/* ---------------- APPEARANCE / BG ---------------- */
+function setAppearance(appearance) {
+  state.appearance = appearance || "system";
+
+  document.body.classList.remove(
+    "appearance-light",
+    "appearance-dark",
+    "appearance-system"
+  );
+
+  document.body.classList.add(`appearance-${state.appearance}`);
+
+  saveState();
 }
 
 /* ---------------- EMBED LINK ---------------- */
 function buildEmbedURL() {
   const base = window.location.origin + window.location.pathname;
 
-  return `${base}?theme=${state.theme}&font=${state.font}&format=${state.format}&seconds=${state.seconds}&embed=true`;
+  return `${base}?theme=${state.theme}&font=${state.font}&appearance=${state.appearance}&format=${state.format}&seconds=${state.seconds}&embed=true`;
 }
 
 /* ---------------- COPY LINK ---------------- */
@@ -122,42 +156,94 @@ if (copyBtn) {
   copyBtn.addEventListener("click", () => {
     navigator.clipboard.writeText(buildEmbedURL());
 
-    const msg = document.getElementById("copyMessage");
-    if (!msg) return;
+    if (!copyMessage) return;
 
-    msg.classList.remove("hidden");
-    msg.classList.add("show");
+    copyMessage.classList.remove("hidden");
+    copyMessage.classList.add("show");
 
     setTimeout(() => {
-      msg.classList.add("hidden");
-      msg.classList.remove("show");
+      copyMessage.classList.add("hidden");
+      copyMessage.classList.remove("show");
     }, 2000);
   });
 }
 
+/* ---------------- SIZE / TIME SETTINGS ---------------- */
+if (sizeBtn && sizeOptions) {
+  sizeBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    sizeOptions.classList.toggle("hidden");
+    themeOptions?.classList.add("hidden");
+    appearanceOptions?.classList.add("hidden");
+    fontOptions?.classList.add("hidden");
+  });
+}
+
+document.querySelectorAll(".size-option").forEach((option) => {
+  option.addEventListener("click", () => {
+    if (option.dataset.format) {
+      state.format = option.dataset.format;
+    }
+
+    if (option.dataset.seconds) {
+      state.seconds = option.dataset.seconds;
+    }
+
+    saveState();
+    updateTime();
+
+    sizeOptions?.classList.add("hidden");
+  });
+});
+
 /* ---------------- POPUPS ---------------- */
 themeBtn?.addEventListener("click", (e) => {
   e.stopPropagation();
-  themeOptions.classList.toggle("hidden");
+
+  themeOptions?.classList.toggle("hidden");
+  sizeOptions?.classList.add("hidden");
+  appearanceOptions?.classList.add("hidden");
+  fontOptions?.classList.add("hidden");
+});
+
+appearanceToggle?.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  appearanceOptions?.classList.toggle("hidden");
+  sizeOptions?.classList.add("hidden");
+  themeOptions?.classList.add("hidden");
+  fontOptions?.classList.add("hidden");
 });
 
 fontBtn?.addEventListener("click", (e) => {
   e.stopPropagation();
-  fontOptions.classList.toggle("hidden");
+
+  fontOptions?.classList.toggle("hidden");
+  sizeOptions?.classList.add("hidden");
+  themeOptions?.classList.add("hidden");
+  appearanceOptions?.classList.add("hidden");
 });
 
 /* ---------------- OPTIONS ---------------- */
-document.querySelectorAll(".theme-circle").forEach(el => {
+document.querySelectorAll(".theme-circle").forEach((el) => {
   el.addEventListener("click", () => {
     setTheme(el.dataset.theme);
-    themeOptions.classList.add("hidden");
+    themeOptions?.classList.add("hidden");
   });
 });
 
-document.querySelectorAll(".font-option").forEach(el => {
+document.querySelectorAll(".appearance-option").forEach((el) => {
+  el.addEventListener("click", () => {
+    setAppearance(el.dataset.appearance);
+    appearanceOptions?.classList.add("hidden");
+  });
+});
+
+document.querySelectorAll(".font-option").forEach((el) => {
   el.addEventListener("click", () => {
     setFont(el.dataset.font);
-    fontOptions.classList.add("hidden");
+    fontOptions?.classList.add("hidden");
   });
 });
 
@@ -167,18 +253,26 @@ document.addEventListener("click", (e) => {
     themeOptions?.classList.add("hidden");
   }
 
+  if (
+    !appearanceToggle?.contains(e.target) &&
+    !appearanceOptions?.contains(e.target)
+  ) {
+    appearanceOptions?.classList.add("hidden");
+  }
+
   if (!fontBtn?.contains(e.target) && !fontOptions?.contains(e.target)) {
     fontOptions?.classList.add("hidden");
   }
 
-  // ✨ ADD THIS
   if (!sizeBtn?.contains(e.target) && !sizeOptions?.contains(e.target)) {
     sizeOptions?.classList.add("hidden");
   }
 });
 
-setInterval(updateTime, 1000);
-
-updateTime();
+/* ---------------- INIT ---------------- */
+saveState();
 setTheme(state.theme);
 setFont(state.font);
+setAppearance(state.appearance);
+updateTime();
+setInterval(updateTime, 1000);
