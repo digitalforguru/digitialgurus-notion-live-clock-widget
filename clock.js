@@ -124,6 +124,15 @@ function setFont(font) {
   updateBothWidgets((el) => {
     el.classList.remove("font-default", "font-serif", "font-mono");
     el.classList.add(`font-${state.font}`);
+
+    if (state.font === "serif") {
+      el.style.fontFamily = "Georgia, serif";
+    } else if (state.font === "mono") {
+      el.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, monospace";
+    } else {
+      el.style.fontFamily =
+        "'Satoshi', ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif";
+    }
   });
 
   saveState();
