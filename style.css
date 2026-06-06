@@ -613,6 +613,22 @@ body.appearance-dark .preview-frame {
   }
 }
 
+@media (prefers-color-scheme: dark) {
+  body.appearance-system .font-option,
+  body.appearance-system .appearance-option,
+  body.appearance-system .size-option {
+    background: rgba(255,255,255,0.08);
+    color: var(--panel-text);
+    border-color: rgba(255,255,255,0.1);
+  }
+
+  body.appearance-system .font-option:hover,
+  body.appearance-system .appearance-option:hover,
+  body.appearance-system .size-option:hover {
+    background: rgba(255,255,255,0.15);
+  }
+}
+
 /* EMBED MODE */
 
 .embed-widget {
